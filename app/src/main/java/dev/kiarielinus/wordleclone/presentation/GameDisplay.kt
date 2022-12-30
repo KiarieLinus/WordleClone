@@ -1,5 +1,6 @@
 package dev.kiarielinus.wordleclone.presentation
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -11,7 +12,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Help
 import androidx.compose.material.icons.outlined.Leaderboard
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +45,8 @@ fun GameDisplay(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 for (column in 0..difficulty) {
-                    var cellPosition by remember { mutableStateOf(Array(row) { IntArray(column) }) }
+                    val cellPosition by remember { mutableStateOf(arrayOf(row,column)) }
+                    Log.e("CellPosition", cellPosition.contentToString())
                     GuessCell(modifier = Modifier.weight(1f))
                 }
             }
