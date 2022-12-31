@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import dev.kiarielinus.wordleclone.presentation.GameScreen
 import dev.kiarielinus.wordleclone.presentation.WordleViewModel
 import dev.kiarielinus.wordleclone.ui.theme.WordleCloneTheme
 import org.koin.androidx.compose.koinViewModel
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    GameScreen()
                 }
             }
         }

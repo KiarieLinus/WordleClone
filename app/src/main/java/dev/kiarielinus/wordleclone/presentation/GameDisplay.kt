@@ -1,7 +1,6 @@
 package dev.kiarielinus.wordleclone.presentation
 
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -24,17 +23,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.kiarielinus.wordleclone.ui.theme.BorderGray
-import dev.kiarielinus.wordleclone.ui.theme.FillBlack
 import dev.kiarielinus.wordleclone.ui.theme.KarnakCondensed
 
 @Preview
 @Composable
 fun GameDisplay(
+    modifier: Modifier = Modifier,
     difficulty: Int = 4
 ) {
     Column(
-        modifier = Modifier
-            .background(FillBlack)
+        modifier = modifier
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
         for (row in 0..difficulty + 1) {
@@ -55,7 +53,7 @@ fun GameDisplay(
 }
 
 @Composable
-fun GuessCell(
+private fun GuessCell(
     modifier: Modifier = Modifier,
     text: String = "B"
 ) {

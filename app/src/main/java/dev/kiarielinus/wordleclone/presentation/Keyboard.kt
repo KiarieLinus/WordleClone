@@ -21,20 +21,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.kiarielinus.wordleclone.ui.theme.KeyGray
+import dev.kiarielinus.wordleclone.util.buttons
 
 @Preview
 @Composable
-fun Keyboard() {
-    val buttons = listOf(
-        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K",
-        "L", "ENTER", "Z", "X", "C", "V", "B", "N", "M", "BACKSPACE"
-    )
-
+fun Keyboard(
+    modifier: Modifier = Modifier
+) {
     var size by remember { mutableStateOf(0) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier
+        modifier = modifier
             .onGloballyPositioned {
                 size = it.size.width
                 Log.e("ColumnWidth", size.toString())
@@ -65,7 +63,7 @@ fun Keyboard() {
 }
 
 @Composable
-fun KeyButton(
+private fun KeyButton(
     input: String,
     index: Int,
     width: Dp,
@@ -75,7 +73,7 @@ fun KeyButton(
         modifier = Modifier
             .clickable { onClick() }
             .width(if (index == 19 || index == 27) ((width * 1.5f)+ 3.dp) else width)
-            .height(60.dp)
+            .height(width*2)
             .background(KeyGray, RoundedCornerShape(4.dp))
     ) {
         if (index == 27) {
