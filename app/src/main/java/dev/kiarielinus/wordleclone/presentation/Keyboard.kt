@@ -26,7 +26,7 @@ fun Keyboard(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
             .padding(start = 6.dp)
             .fillMaxWidth()
@@ -81,7 +81,7 @@ private fun KeyButton(
         } else Text(
             text = input,
             color = Color.White,
-            fontSize = if (index == 19) 12.sp else 16.sp,
+            fontSize = if (index == 19) 12.sp else 14.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center)
         )

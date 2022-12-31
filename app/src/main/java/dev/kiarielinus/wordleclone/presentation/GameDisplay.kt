@@ -43,7 +43,7 @@ fun GameDisplay(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 for (column in 0..difficulty) {
-                    val cellPosition by remember { mutableStateOf(arrayOf(row,column)) }
+                    val cellPosition by remember { mutableStateOf(arrayOf(row, column)) }
                     Log.e("CellPosition", cellPosition.contentToString())
                     GuessCell(modifier = Modifier.weight(1f))
                 }
@@ -55,7 +55,7 @@ fun GameDisplay(
 @Composable
 private fun GuessCell(
     modifier: Modifier = Modifier,
-    text: String = "B"
+    text: String = "Q"
 ) {
     Box(
         modifier = modifier
@@ -77,20 +77,24 @@ private fun GuessCell(
 @Composable
 fun GameHeader() {
     TopAppBar(
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Icon(imageVector = Icons.Filled.Menu, contentDescription = "menu")
-                Text(
-                    text = "Wordle",
-                    fontFamily = KarnakCondensed,
-                    fontSize = 28.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.W700
+        navigationIcon = {
+            Box(Modifier.fillMaxSize()) {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = "menu",
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
+        },
+        title = {
+            Text(
+                text = "Wordle",
+                letterSpacing = 1.sp,
+                fontFamily = KarnakCondensed,
+                fontSize = 28.sp,
+                color = Color.White,
+                fontWeight = FontWeight.W700
+            )
         },
         actions = {
             Icon(
