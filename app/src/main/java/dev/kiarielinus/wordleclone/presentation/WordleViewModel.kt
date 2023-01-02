@@ -21,7 +21,7 @@ class WordleViewModel(
             guesses.add(
                 mutableStateOf(
                     GameDisplayState(
-                        isLastInRow = if (index == 0) false else index.mod(5) == 0
+                        isFirstInRow = if (index == 0) false else index.mod(5) == 0
                     )
                 )
             )
@@ -60,7 +60,7 @@ class WordleViewModel(
                 backspacePressed()
             }
             else -> {
-                if (_charGuesses.lastIndex != 29 && !guesses[_charGuesses.lastIndex + 1].value.isLastInRow) {
+                if (_charGuesses.lastIndex != 29 && !guesses[_charGuesses.lastIndex + 1].value.isFirstInRow) {
                     _charGuesses.add(buttons[index])
                     guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value
                         .copy(guess = _charGuesses[_charGuesses.lastIndex])
@@ -71,10 +71,14 @@ class WordleViewModel(
 
     private fun backspacePressed() {
 //        Log.e("CurrentRowLC", "current row: ${currentRowIndex*5+5}, lastInd: ${_charGuesses.lastIndex}")
-        if((currentRowIndex-1)*5 + 5 == _charGuesses.lastIndex && currentRowIndex != 0){
+
+        if ((currentRowIndex - 1) * 5 + 5 == _charGuesses.lastIndex
+            && currentRowIndex != 0
+            && !guesses[_charGuesses.lastIndex].value.isFirstInRow
+        ) {
             currentRowIndex--
             startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
-                isLastInRow = true
+                isFirstInRow = true
             )
         }
 
@@ -87,7 +91,7 @@ class WordleViewModel(
 
     private fun enterPressed() {
         startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
-            isLastInRow = false
+            isFirstInRow = false
         )
 
         if (startRowStates.lastIndex > currentRowIndex) {
