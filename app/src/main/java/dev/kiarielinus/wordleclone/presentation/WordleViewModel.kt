@@ -12,22 +12,26 @@ import kotlinx.coroutines.launch
 class WordleViewModel(
     private val repository: WordleRepository
 ) : ViewModel() {
-    //Get the list of index and letter only pair buttons
-    private val letters = buttons.mapIndexed { index, value ->
-        index to value
-    }.filterNot {
-        it.first == 19 || it.first == 27
-    }
-
     private val _charGuesses = mutableListOf<String>()
 
     val guesses = mutableListOf<MutableState<GameDisplayState>>()
 
     init {
-        (0..29).map {
-            guesses.add(mutableStateOf(GameDisplayState()))
+        (0..29).map { index ->
+            guesses.add(
+                mutableStateOf(
+                    GameDisplayState(
+                        isLastInRow = if (index == 0) false else index.mod(5) == 0
+                    )
+                )
+            )
         }
     }
+
+    private val startRowStates = guesses.filterIndexed { index, _ ->
+        index.mod(5) == 0 && index != 0
+    }
+    private var currentRowIndex = 0
 
     fun validateWord(word: String) {
         viewModelScope.launch {
@@ -56,7 +60,7 @@ class WordleViewModel(
                 backspacePressed()
             }
             else -> {
-                if ((_charGuesses.lastIndex != 29)) {
+                if (_charGuesses.lastIndex != 29 && !guesses[_charGuesses.lastIndex + 1].value.isLastInRow) {
                     _charGuesses.add(buttons[index])
                     guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value
                         .copy(guess = _charGuesses[_charGuesses.lastIndex])
@@ -66,6 +70,14 @@ class WordleViewModel(
     }
 
     private fun backspacePressed() {
+//        Log.e("CurrentRowLC", "current row: ${currentRowIndex*5+5}, lastInd: ${_charGuesses.lastIndex}")
+        if((currentRowIndex-1)*5 + 5 == _charGuesses.lastIndex && currentRowIndex != 0){
+            currentRowIndex--
+            startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
+                isLastInRow = true
+            )
+        }
+
         if (_charGuesses.lastIndex != -1) {
             guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value
                 .copy(guess = "")
@@ -74,7 +86,12 @@ class WordleViewModel(
     }
 
     private fun enterPressed() {
-        TODO()
-    }
+        startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
+            isLastInRow = false
+        )
 
+        if (startRowStates.lastIndex > currentRowIndex) {
+            currentRowIndex++
+        }
+    }
 }

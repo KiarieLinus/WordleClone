@@ -1,5 +1,6 @@
 package dev.kiarielinus.wordleclone.presentation
 
 data class GameDisplayState(
-    var guess: String = ""
+    val guess: String = "",
+    val isLastInRow: Boolean = false
 )
