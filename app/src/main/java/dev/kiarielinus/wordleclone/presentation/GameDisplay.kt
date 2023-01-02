@@ -1,6 +1,5 @@
 package dev.kiarielinus.wordleclone.presentation
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -12,9 +11,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Help
 import androidx.compose.material.icons.outlined.Leaderboard
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,12 +22,14 @@ import androidx.compose.ui.unit.sp
 import dev.kiarielinus.wordleclone.ui.theme.BorderGray
 import dev.kiarielinus.wordleclone.ui.theme.KarnakCondensed
 
-@Preview
+
 @Composable
 fun GameDisplay(
     modifier: Modifier = Modifier,
-    difficulty: Int = 4
+    difficulty: Int,
+    state: MutableList<MutableState<GameDisplayState>>,
 ) {
+
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 24.dp)
@@ -43,9 +42,8 @@ fun GameDisplay(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 for (column in 0..difficulty) {
-                    val cellPosition by remember { mutableStateOf(arrayOf(row, column)) }
-                    Log.e("CellPosition", cellPosition.contentToString())
-                    GuessCell(modifier = Modifier.weight(1f))
+                    val index = row * (difficulty + 1) + column
+                    GuessCell(modifier = Modifier.weight(1f), value = state[index].value.guess)
                 }
             }
         }
@@ -55,7 +53,7 @@ fun GameDisplay(
 @Composable
 private fun GuessCell(
     modifier: Modifier = Modifier,
-    text: String = "Q"
+    value: String,
 ) {
     Box(
         modifier = modifier
@@ -63,7 +61,7 @@ private fun GuessCell(
             .aspectRatio(1f)
     ) {
         Text(
-            text = text,
+            text = value,
             fontSize = 32.sp,
             color = Color.White,
             modifier = Modifier.align(

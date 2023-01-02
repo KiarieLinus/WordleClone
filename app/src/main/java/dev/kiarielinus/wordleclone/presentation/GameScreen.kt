@@ -9,7 +9,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 
 @Composable
-fun GameScreen() {
+fun GameScreen(viewModel: WordleViewModel) {
+    val difficulty = 4
+    val guessesState = viewModel.guesses
     Scaffold(
         topBar = { GameHeader() }
     ) { paddingValues ->
@@ -28,7 +30,10 @@ fun GameScreen() {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 8.dp),
+                keyClicked = { index ->
+                    viewModel.keyClicked(index)
+                }
             )
 
             GameDisplay(
@@ -38,7 +43,9 @@ fun GameScreen() {
                         bottom.linkTo(keyboard.top)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                    }
+                    },
+                difficulty = difficulty,
+                state = guessesState
             )
         }
     }

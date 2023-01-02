@@ -13,16 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.kiarielinus.wordleclone.ui.theme.KeyGray
 import dev.kiarielinus.wordleclone.util.buttons
 
-@Preview
 @Composable
 fun Keyboard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyClicked: (index: Int) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -33,13 +32,17 @@ fun Keyboard(
     ) {
         Row {
             for (key in 0..9) {
-                KeyButton(modifier = Modifier.weight(1f), input = buttons[key], key) {}
+                KeyButton(modifier = Modifier.weight(1f), input = buttons[key], key) {
+                    keyClicked(key)
+                }
             }
         }
         Row {
             Spacer(modifier = Modifier.weight(0.5f))
             for (key in 10..18) {
-                KeyButton(modifier = Modifier.weight(1f), input = buttons[key], key) {}
+                KeyButton(modifier = Modifier.weight(1f), input = buttons[key], key) {
+                    keyClicked(key)
+                }
             }
             Spacer(modifier = Modifier.weight(0.5f))
         }
@@ -49,7 +52,7 @@ fun Keyboard(
                     modifier = Modifier.weight(if (key == 19 || key == 27) 1.5f else 1f),
                     input = buttons[key],
                     key
-                ) {}
+                ) { keyClicked(key) }
             }
         }
     }
