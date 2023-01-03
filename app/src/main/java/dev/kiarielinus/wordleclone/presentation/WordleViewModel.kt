@@ -1,5 +1,6 @@
 package dev.kiarielinus.wordleclone.presentation
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -29,7 +30,7 @@ class WordleViewModel(
     }
 
     private val startRowStates = guesses.filterIndexed { index, _ ->
-        index.mod(5) == 0 && index != 0
+        index.mod(5) == 0
     }
     private var currentRowIndex = 0
 
@@ -70,7 +71,6 @@ class WordleViewModel(
     }
 
     private fun backspacePressed() {
-//        Log.e("CurrentRowLC", "current row: ${currentRowIndex*5+5}, lastInd: ${_charGuesses.lastIndex}")
         if (guesses[_charGuesses.lastIndex].value.isDeletable) {
             if (_charGuesses.lastIndex != -1) {
                 guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value
@@ -81,18 +81,24 @@ class WordleViewModel(
     }
 
     private fun enterPressed() {
-        if (_charGuesses.size != 0 && _charGuesses.size.mod(5) == 0) {
-            startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
-                isFirstInRow = false
-            )
+        if (_charGuesses.size != 0 && _charGuesses.size.mod(5) == 0 && startRowStates.lastIndex >= currentRowIndex) {
+            val firstRowIndex = if (startRowStates.lastIndex == currentRowIndex) currentRowIndex else (currentRowIndex + 1)
+            startRowStates[firstRowIndex].value =
+                startRowStates[firstRowIndex].value.copy(
+                    isFirstInRow = false
+                )
 
             guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value.copy(
                 isDeletable = false
             )
 
-            if (startRowStates.lastIndex > currentRowIndex) {
-                currentRowIndex++
-            }
+            val charList = _charGuesses.subList(currentRowIndex * 5, currentRowIndex * 5 + 5)
+                .joinToString(separator = "")
+
+            Log.e("StringGuess", "$charList , $currentRowIndex")
+
+
+            currentRowIndex++
         }
     }
 }
