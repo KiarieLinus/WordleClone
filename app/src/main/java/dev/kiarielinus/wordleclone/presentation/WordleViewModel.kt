@@ -71,31 +71,28 @@ class WordleViewModel(
 
     private fun backspacePressed() {
 //        Log.e("CurrentRowLC", "current row: ${currentRowIndex*5+5}, lastInd: ${_charGuesses.lastIndex}")
-
-        if ((currentRowIndex - 1) * 5 + 5 == _charGuesses.lastIndex
-            && currentRowIndex != 0
-            && !guesses[_charGuesses.lastIndex].value.isFirstInRow
-        ) {
-            currentRowIndex--
-            startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
-                isFirstInRow = true
-            )
-        }
-
-        if (_charGuesses.lastIndex != -1) {
-            guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value
-                .copy(guess = "")
-            _charGuesses.removeLastOrNull()
+        if (guesses[_charGuesses.lastIndex].value.isDeletable) {
+            if (_charGuesses.lastIndex != -1) {
+                guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value
+                    .copy(guess = "")
+                _charGuesses.removeLastOrNull()
+            }
         }
     }
 
     private fun enterPressed() {
-        startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
-            isFirstInRow = false
-        )
+        if (_charGuesses.size != 0 && _charGuesses.size.mod(5) == 0) {
+            startRowStates[currentRowIndex].value = startRowStates[currentRowIndex].value.copy(
+                isFirstInRow = false
+            )
 
-        if (startRowStates.lastIndex > currentRowIndex) {
-            currentRowIndex++
+            guesses[_charGuesses.lastIndex].value = guesses[_charGuesses.lastIndex].value.copy(
+                isDeletable = false
+            )
+
+            if (startRowStates.lastIndex > currentRowIndex) {
+                currentRowIndex++
+            }
         }
     }
 }
