@@ -11,7 +11,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 @Composable
 fun GameScreen(viewModel: WordleViewModel) {
     val difficulty = 4
-    val guessesState = viewModel.guesses
+    val gameDisplayStates = viewModel.gameDisplayStates
     Scaffold(
         topBar = { GameHeader() }
     ) { paddingValues ->
@@ -45,7 +45,7 @@ fun GameScreen(viewModel: WordleViewModel) {
                         end.linkTo(parent.end)
                     },
                 difficulty = difficulty,
-                state = guessesState
+                state = gameDisplayStates
             )
         }
     }
