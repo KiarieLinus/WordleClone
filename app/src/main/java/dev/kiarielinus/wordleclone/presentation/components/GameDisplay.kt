@@ -1,4 +1,4 @@
-package dev.kiarielinus.wordleclone.presentation
+package dev.kiarielinus.wordleclone.presentation.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.kiarielinus.wordleclone.domain.model.WordleCell
 import dev.kiarielinus.wordleclone.ui.theme.BorderGray
 import dev.kiarielinus.wordleclone.ui.theme.KarnakCondensed
 
@@ -27,23 +28,23 @@ import dev.kiarielinus.wordleclone.ui.theme.KarnakCondensed
 fun GameDisplay(
     modifier: Modifier = Modifier,
     difficulty: Int,
-    state: MutableList<MutableState<GameDisplayState>>,
+    cellStates: MutableList<MutableState<WordleCell>>,
 ) {
 
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
-        for (row in 0..difficulty + 1) {
+        for (row in 0..difficulty) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 3.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                for (column in 0..difficulty) {
-                    val index = row * (difficulty + 1) + column
-                    GuessCell(modifier = Modifier.weight(1f), value = state[index].value.guess)
+                for (column in 0 until difficulty) {
+                    val index = row * (difficulty) + column
+                    GuessCell(modifier = Modifier.weight(1f), value = cellStates[index].value.guess)
                 }
             }
         }

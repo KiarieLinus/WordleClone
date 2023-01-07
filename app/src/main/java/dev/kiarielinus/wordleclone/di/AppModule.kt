@@ -3,8 +3,8 @@ package dev.kiarielinus.wordleclone.di
 import dev.kiarielinus.wordleclone.data.remote.repository.WordleRepositoryImpl
 import dev.kiarielinus.wordleclone.data.remote.response.api.DictionaryApi
 import dev.kiarielinus.wordleclone.data.remote.response.api.RandomWordApi
-import dev.kiarielinus.wordleclone.domain.repository.WordleRepository
-import dev.kiarielinus.wordleclone.presentation.WordleViewModel
+import dev.kiarielinus.wordleclone.domain.repository.IWordleRepository
+import dev.kiarielinus.wordleclone.presentation.active_game.WordleViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,7 +36,7 @@ val appModule = module {
             .create(RandomWordApi::class.java)
     }
     //Provides WordleRepository
-    single<WordleRepository> {
+    single<IWordleRepository> {
         WordleRepositoryImpl(get(),get())
     }
     //Declare ViewModel

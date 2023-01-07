@@ -1,4 +1,4 @@
-package dev.kiarielinus.wordleclone.presentation
+package dev.kiarielinus.wordleclone.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

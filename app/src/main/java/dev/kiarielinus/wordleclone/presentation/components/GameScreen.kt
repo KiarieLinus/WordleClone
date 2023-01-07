@@ -1,4 +1,4 @@
-package dev.kiarielinus.wordleclone.presentation
+package dev.kiarielinus.wordleclone.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,11 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import dev.kiarielinus.wordleclone.presentation.active_game.WordleViewModel
 
 @Composable
 fun GameScreen(viewModel: WordleViewModel) {
-    val difficulty = 4
-    val gameDisplayStates = viewModel.gameDisplayStates
+    val difficulty = 5
+    val cellStates = viewModel.subWordleCellStates
     Scaffold(
         topBar = { GameHeader() }
     ) { paddingValues ->
@@ -45,7 +46,7 @@ fun GameScreen(viewModel: WordleViewModel) {
                         end.linkTo(parent.end)
                     },
                 difficulty = difficulty,
-                state = gameDisplayStates
+                cellStates = cellStates
             )
         }
     }
